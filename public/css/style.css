@@ -1,0 +1,38 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.entry {
+	display: block;
+	padding-bottom: 10px;
+	border-bottom: 1px solid black;
+	margin-bottom: 10px;
+}
+.entry > input {
+	margin-left: 4px;
+}
+.entry span {
+	font-weight: bold;
+}
+.entry span[onclick] {
+	margin-left: 4px;
+	cursor: pointer;
+}
+.forwardTo {
+	padding-left: 20px;
+	display: block;
+}
+.forwardTo input, .forwardTo > button {
+	margin-left: 15px;
+	margin-bottom: 1px;
+}
+.forwardTo > button {
+	display: block;
+}
+
+#fin {
+	position: fixed;
+	bottom: 0;
+}

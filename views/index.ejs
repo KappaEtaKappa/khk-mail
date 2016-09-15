@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>Mail Admin</title>
+	<link rel='stylesheet' href='/css/style.css'/>
+	</head>
+	<body>
+	<h1 title="This Mother Fucking Mail Admin Tool">TMFMAT</h1>
+	<form id="forwarders" action="/update" method="POST">
+		<% mail.forEach(function(entry, index){ %>
+			<div class="entry" data-index="<%= index %>">
+				<span>Mail sent to:</span><input name="mail[<%= index %>][sentTo]" 
+					   value="<%= entry.sentTo %>"><span onclick="deleteEntry(this)">X</span>
+				<div class="forwardTo">
+					<span>Will forward to:</span>
+					<% entry.forwardTo.forEach(function(recip, recip_index){ %>
+						<div>
+							<input data-index="<%= index %>"
+										 name="mail[<%= index %>][forwardTo][<%= recip_index %>]"
+										 value="<%= recip %>"><span onclick="deleteEntry(this)">X</span>
+						</div>
+					<% }); %>
+						<button type="button" onclick="addForwarder(this)">Add Address</button>
+				</div>
+			</div>
+		<% }); %>
+		<button type="button" onclick="addEntry(this)">Add Entry</button>
+		<input type="submit" value="Save">
+		<% if(locals.success){ %>
+			<span>Save Successfull</span>
+		<% } %>
+		<%locals.success%>
+	</form>
+	<h3 id="fin">Joseph Dailey 2016</h3>
+	</body>
+	<script type="text/javascript">
+		function addForwarder(e){
+			var parent = e.parentElement;
+			var others = parent.getElementsByTagName('input');
+			last = others[others.length-1];
+			var nextIndex = others.length;
+			var nextName = last.getAttribute("name")
+							   .replace('[forwardTo]['+(nextIndex-1)+']',
+							   					'[forwardTo]['+nextIndex+']');
+			
+			var newDiv = document.createElement('DIV');
+
+				var newInput = document.createElement('INPUT');
+					var newInputDataIndex = document.createAttribute("data-index");
+						newInputDataIndex.value = nextIndex;
+						newInput.setAttributeNode(newInputDataIndex);
+					var newInputName = document.createAttribute("name");
+						newInputName.value = nextName;
+						newInput.setAttributeNode(newInputName);
+					newDiv.appendChild(newInput);
+
+				var newInputX = document.createElement('SPAN');
+					newInputX.appendChild(document.createTextNode("X"));
+						var newInputXOnclick = document.createAttribute("onclick");
+							newInputXOnclick.value = 'deleteEntry(this)';
+							newInputX.setAttributeNode(newInputXOnclick);
+					newDiv.appendChild(newInputX);
+
+			parent.insertBefore(newDiv, e);
+		}
+		function addEntry(e){
+			var parent = e.parentElement;
+			var others = parent.getElementsByClassName('entry');
+			last = others[others.length-1];
+			var nextIndex = parseInt(last.dataset.index)+1;
+			var nextName = 'mail['+nextIndex+'][sentTo]';
+			
+			var newEntry = document.createElement('DIV');
+			var newEntryClass = document.createAttribute("class");
+				newEntryClass.value = "entry";
+				newEntry.setAttributeNode(newEntryClass);
+
+			var newEntryDataIndex = document.createAttribute("data-index");
+				newEntryDataIndex.value = nextIndex;
+				newEntry.setAttributeNode(newEntryDataIndex);
+
+			var newEntrySpan = document.createElement('SPAN');
+				newEntrySpan.appendChild(document.createTextNode("Mail sent to:"));
+				newEntry.appendChild(newEntrySpan);
+
+			var newEntryInput = document.createElement('INPUT');
+					var newEntryInputName = document.createAttribute("name");
+						newEntryInputName.value = nextName;
+						newEntryInput.setAttributeNode(newEntryInputName);
+				newEntry.appendChild(newEntryInput);
+
+			var newEntryX = document.createElement('SPAN');
+				newEntryX.appendChild(document.createTextNode("X"));
+					var newEntryXOnclick = document.createAttribute("onclick");
+						newEntryXOnclick.value = 'deleteEntry(this)';
+						newEntryX.setAttributeNode(newEntryXOnclick);
+				newEntry.appendChild(newEntryX);
+
+			var newEntryForwardToDiv = document.createElement('DIV');
+					var newEntryForwardToDivClass = document.createAttribute("class");
+						newEntryForwardToDivClass.value = 'forwardTo';
+						newEntryForwardToDiv.setAttributeNode(newEntryForwardToDivClass);
+
+					var newEntryForwardToSpan = document.createElement('SPAN');
+						newEntryForwardToSpan.appendChild(document.createTextNode("Will forward to:"));
+						newEntryForwardToDiv.appendChild(newEntryForwardToSpan);
+					newEntryForwardToDiv.appendChild(newEntryForwardToSpan);
+
+					var newDiv = document.createElement('DIV');
+
+						var newInput = document.createElement('INPUT');
+							var newInputDataIndex = document.createAttribute("data-index");
+								newInputDataIndex.value = "0";
+								newInput.setAttributeNode(newInputDataIndex);
+							var newInputName = document.createAttribute("name");
+								newInputName.value = 'mail['+nextIndex+'][forwardTo][0]';
+								newInput.setAttributeNode(newInputName);
+							newDiv.appendChild(newInput);
+
+						var newInputX = document.createElement('SPAN');
+							newInputX.appendChild(document.createTextNode("X"));
+								var newInputXOnclick = document.createAttribute("onclick");
+									newInputXOnclick.value = 'deleteEntry(this)';
+									newInputX.setAttributeNode(newInputXOnclick);
+							newDiv.appendChild(newInputX);
+
+					newEntryForwardToDiv.appendChild(newDiv, e);
+
+					var newEntryForwardToButton = document.createElement('BUTTON');
+						newEntryForwardToButton.appendChild(document.createTextNode("Add Address"));
+							var newEntryForwardToButtonOnclick = document.createAttribute("onclick");
+									newEntryForwardToButtonOnclick.value = 'addForwarder(this)';
+									newEntryForwardToButton.setAttributeNode(newEntryForwardToButtonOnclick);
+							var newEntryForwardToButtonType = document.createAttribute("type");
+									newEntryForwardToButtonType.value = 'button';
+									newEntryForwardToButton.setAttributeNode(newEntryForwardToButtonType);
+					newEntryForwardToDiv.appendChild(newEntryForwardToButton);
+
+			newEntry.appendChild(newEntryForwardToDiv);
+
+			parent.insertBefore(newEntry, e);
+		}
+		function deleteEntry(e){
+			toDelete = e.parentElement;
+			toDelete.parentElement.removeChild(toDelete);
+		}
+	</script>
+</html>

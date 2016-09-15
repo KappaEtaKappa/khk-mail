@@ -1,0 +1,13 @@
+[Unit]
+Description=Mail Admin Daemon
+Type=forking
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/node /opt/khk-web/khk-mail/mailadmin.js
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
