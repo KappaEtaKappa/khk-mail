@@ -1,4 +1,5 @@
 var fs = require('fs');
+var exec = require('child_process').exec;
 
 var express = require('express');
 var path = require('path');
@@ -20,6 +21,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+global.ssa = {};
+try {
+  global.ssa = require("../khk-ssa/khk-access/index.js")();
+} catch(e) {
+  console.log("Failed to contact khk-ssa, please clone it from the repo adjacent to this folder.");
+}
+
+console.log(ssa);
+
+app.use(ssa.navbar("TMFMAT"));
 
 var forwardersFile = path.join(__dirname, 'forwarders');
 
@@ -46,12 +58,14 @@ app.get('/', function(req, res){
   }
   console.log("sent\n", entries);
   if(req.query.error == 1)
-    res.render('index', {mail:entries, success:false});
-  else
-    res.render('index', {mail:entries, success:true});
+    res.render('index', {mail:entries, success:0});
+  else if(req.query.error == 0)
+    res.render('index', {mail:entries, success:1});
+	else
+		res.render('index', {mail:entries});
 });
 
-var postmap = 'postmap /opt/khk-web/khk-main/forwarders'
+var postmap = 'postmap /opt/khk-web/khk-mail/forwarders'
 var reload = 'postfix reload';
 
 app.post('/update', function(req, res){
@@ -110,16 +124,16 @@ app.post('/update', function(req, res){
   exec(postmap, function(error, stdout, stderr) {
     console.log(error, stdout, stderr);
     if(error || stderr){
-      res.redirect('/?success=0');
+      res.redirect('/?error=1');
       return;
     }
     exec(reload, function(error, stdout, stderr) {
       console.log(error, stdout, stderr);
       if(error || stderr){
-        res.redirect('/?success=0');
+        res.redirect('/?error=1');
         return;
       }
-      res.redirect('/?success=1');
+      res.redirect('/?error=0');
     });
   });
 });

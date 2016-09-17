@@ -13,8 +13,8 @@ git pull origin master
 npm install
 
 echo '/etc/postfix/main.cf => /etc/postfix/main.cf.back'
-if cp /etc/postfix/main.cf /etc/postfix/main.cf.back then
-	if cp ./cp/main.cf /etc/postfix/main.cf then
+if cp /etc/postfix/main.cf /etc/postfix/main.cf.back; then
+	if cp ./cp/main.cf /etc/postfix/main.cf; then
 		echo Success
 	else
 		exit 1
@@ -23,7 +23,7 @@ else
 	exit 1
 fi
 
-postmap /opt/khk-web/khk-main/forwarders
+postmap /opt/khk-web/khk-mail/forwarders
 postfix reload
 
 

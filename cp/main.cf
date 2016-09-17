@@ -1,5 +1,5 @@
 virtual_alias_domains = do.khk.org 
-virtual_alias_maps = hash:/etc/postfix/virtual
+virtual_alias_maps = hash:/opt/khk-web/khk-mail/forwarders
 inet_interfaces = all
 compatibility_level = 2
 queue_directory = /var/spool/postfix

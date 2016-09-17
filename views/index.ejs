@@ -5,6 +5,7 @@
 	<link rel='stylesheet' href='/css/style.css'/>
 	</head>
 	<body>
+	<%- navbar %>
 	<h1 title="This Mother Fucking Mail Admin Tool">TMFMAT</h1>
 	<form id="forwarders" action="/update" method="POST">
 		<% mail.forEach(function(entry, index){ %>
@@ -26,10 +27,11 @@
 		<% }); %>
 		<button type="button" onclick="addEntry(this)">Add Entry</button>
 		<input type="submit" value="Save">
-		<% if(locals.success){ %>
+		<% if(locals.success == 1){ %>
 			<span>Save Successfull</span>
+		<% } else if(locals.success == 0){ %>
+			<span>Save Failed</span>
 		<% } %>
-		<%locals.success%>
 	</form>
 	<h3 id="fin">Joseph Dailey 2016</h3>
 	</body>
