@@ -40,9 +40,9 @@ app.get('/', function(req, res){
   var forwarders = fs.readFileSync(forwardersFile, 'utf8');
   //convert to json format like:
   /*
-    [ { sentTo: 'contact@do.khk.org',
+    [ { sentTo: 'contact@delta.khk.org',
       forwardTo: [ 'josephldailey@gmail.com' ] },
-    { sentTo: 'president@do.khk.org',
+    { sentTo: 'president@delta.khk.org',
       forwardTo: [ 'josephldailey@gmai.com', 'iankpowell@gmail.com' ] } ]
   */
   forwarders = forwarders.split('\n');
