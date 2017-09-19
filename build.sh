@@ -48,8 +48,8 @@ fi
 
 echo :: Moving '/etc/postfix/main.cf => /etc/postfix/main.cf.back'
 if cp /etc/postfix/main.cf /etc/postfix/main.cf.back; then
-	:: Installing PostFix
-  if cp ./cp/main.cf /etc/postfix/main.cf; then
+	echo :: Installing PostFix
+  if cp ./main.cf /etc/postfix/main.cf; then
     echo ::: PostFix Installed
 	else
 		echo !! PostFix Installation Failed
@@ -59,6 +59,8 @@ else
   echo !! PostFix Backup Failed
 	exit 1
 fi
+
+cd ..
 
 echo :: Updating Postfix Post Map and Reloading
 postmap /opt/khk-web/khk-mail/forwarders
