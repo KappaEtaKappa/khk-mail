@@ -1,5 +1,5 @@
 {
-  "name": "khk-mail",
+  "name": "the.delta.khk.org-mail",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,6 @@
     "express": "~4.13.4",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0",
-    "sqlite3": "^3.1.11"
+    "sqlite": "^3.1.11"
   }
 }
